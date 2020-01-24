@@ -6,6 +6,10 @@
   </head>
 
   <body>
+    <ul>
+      <li><a href="{{ url_for('images_index') }}">List fish images</a></li>
+      <li><a href="{{ url_for('images_form') }}">Add a fish image</a></li>
+          </ul>
     {% block body %}
       <p>
         Content.
