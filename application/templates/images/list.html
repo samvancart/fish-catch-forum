@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Image</th>
+    </tr>
+    {% for image in images %}
+    <tr>
+      <td>{{ image.weight }}</td>
+      <!-- <td>{{ image.method }}</td> -->
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
