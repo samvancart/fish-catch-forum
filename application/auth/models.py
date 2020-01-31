@@ -3,7 +3,7 @@ from application import db
 class User(db.Model):
 
     __tablename__ = "account"
-    __bind_key__ = "user"
+    # __bind_key__ = "user"
   
     id = db.Column(db.Integer, primary_key=True)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
