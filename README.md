@@ -12,6 +12,6 @@ Features:
 + Comment on images
 + Create/join a group
 
-![class diagram](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/fishCatchForumClassDiagram.png)
+[class diagram](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/fishCatchForumClassDiagram.png)
 [User stories](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/user_stories.md)
 [Heroku](https://fish-catch-forum.herokuapp.com/images)
