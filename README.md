@@ -2,11 +2,12 @@
 
 The fish catch forum is a forum for uploading images and descriptions of fish that have been caught by the forums users.
 Each forum user has a unique username and a password that they use to log in to their account. Once logged in, users can upload images and descriptions 
-of fish they have caught and comment on images uploaded to the forum by other users. Users can also create or join a group.
+of fish they have caught and comment on images uploaded to the forum by other users. Users can also create or join a group. Users in a group can upload their
+fish images and descriptions into that group and share comments privately within the group.
 
 Features:
 
-+ Log in
++ Log in with username: hello and password: world
 + Upload fish image with description
 + List images
 + Comment on images
