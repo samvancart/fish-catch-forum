@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<table>
+  <tr>
+    <th>Fish</th>
+  </tr>
+  {% for fish in fish %}
+  <tr>
+    <td>{{ fish.species }}</td>
+    <td>{{ fish.weight }} kg</td>
+    <td>User id: {{ fish.account_id }}</td>
+    <form method="POST" action="{{ url_for('fish_delete')}}">
+      <input type="hidden" value="{{fish.species}}" name="species">
+      <td>
+      <input type="submit" value="Remove">      
+      </td>
+    </form>
+  </tr>
+  {% endfor %}
+  </table>
+{% endblock %}

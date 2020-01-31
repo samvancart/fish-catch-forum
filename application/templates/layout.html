@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Fish catch forum</title>
-  </head>
 
-  <body>
-    <ul>
-      <li><a href="{{ url_for('images_index') }}">List fish images</a></li>
-      <li><a href="{{ url_for('images_form') }}">Add a fish image</a></li>
-          </ul>
-    {% block body %}
-      <p>
-        Content.
-      </p>
-    {% endblock %}
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Fish catch forum</title>
+</head>
+
+<body>
+  {% if current_user.is_authenticated %}
+  <p>
+  Logged in as {{ current_user.username }}. <a href="{{ url_for('auth_logout') }}">Log out</a>
+  </p>
+  {% else %}
+  <a href="{{ url_for('auth_login') }}">Log in</a>
+  {% endif %}
+  <ul>
+    <li><a href="{{ url_for('fish_index') }}">List all fish</a></li>
+    <li><a href="{{ url_for('fish_form') }}">Add a fish</a></li>
+  </ul>
+  {% block body %}
+  <p>
+    Content.
+  </p>
+  {% endblock %}
+</body>
+
 </html>

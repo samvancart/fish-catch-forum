@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('fish_create') }}">
+  <h3>Fish information</h3>
+  <table>
+    <tr>
+<td>
+  {{ form.species.label }}
+</td>
+<td>
+  {{ form.species }}
+</td>
+<td>
+  <ul>
+    {% for error in form.species.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+</td>
+    </tr>
+    <tr>
+<td>
+  {{ form.weight.label }}
+</td>
+<td>
+  {{ form.weight }}
+</td>
+<td>
+</td>
+    </tr>
+    <tr>
+<td colspan="3">
+  <input type="submit" value="Add catch"/>
+</td>
+    </tr>
+
+
+  <!-- <label for="weight">Fish weight</label>
+  <input type="text" id="weight" name="weight" placeholder="2.5 kg.."> -->
+
+  <!-- <label for="method">Fishing method</label>
+  <input type="text" id="method" name="method" placeholder="fly fishing etc..."> -->
+
+  <!-- <input type="submit" value="Add catch" /> -->
+</form>
+{% endblock %}
