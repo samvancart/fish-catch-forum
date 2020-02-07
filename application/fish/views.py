@@ -11,16 +11,10 @@ from application.auth.models import User
 
 @app.route("/fish", methods=["GET"])
 def fish_index():
-    pictures = os.path.join(app.root_path, 'static/pictures')
-    print("PIC LIST",pictures)
-    # pictures = ['pictures/' + file for file in pictures]
-    print(pictures)
+    # pictures = os.path.join(app.root_path, 'static/pictures')
     f = Fish.query.all()
-    # for fish in f:
-    #     fish.image_file = str(pictures)+fish.image_file
-    #     print(fish.image_file)
-
-    return render_template("fish/list.html", fish=f, users=User.query.all())
+    no_posts = User.find_users_with_no_posts()
+    return render_template("fish/list.html", fish=f, users=User.query.all(),no_posts=no_posts)
 
 def save_picture(form_picture,fish_id):
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -46,16 +40,16 @@ def fish_new():
     f.weight = form.weight.data
     f.account_id = current_user.id
 
-    if form.picture.data:
-        fish_id = db.session.query(Fish).count()
-        print("FISH ID" , fish_id)
-        picture_file = save_picture(form.picture.data,fish_id)
-        flash('New catch created!', 'success')
-        f.image_file = picture_file
-        print()
-        print("FORM IMAGE",form.picture.data)
-        print()
+    if not form.picture.data:
+        db.session.add(f)
+        db.session.commit()
+        return redirect(url_for("fish_index"))
 
+
+    fish_id = db.session.query(Fish).count()
+    picture_file = save_picture(form.picture.data,fish_id)
+    flash('New catch created!', 'success')
+    f.image_file = picture_file
 
     db.session.add(f)
     db.session.commit()

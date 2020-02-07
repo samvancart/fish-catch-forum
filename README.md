@@ -6,8 +6,8 @@ of fish they have caught and comment on images uploaded to the forum by other us
 fish images and descriptions into that group and share comments privately within the group.
 
 To log in:
-username: hello
-password: world
+
+Sign up with any credentials.
 
 Features:
 

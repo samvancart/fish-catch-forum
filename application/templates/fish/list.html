@@ -9,9 +9,6 @@
   <tr>
     <td><a href="{{ url_for('fish_view', fish_id=fish.id) }}"> {{ fish.species }}</a></td>
     <td>{{ fish.weight }} kg</td>
-    <!-- <td>
-      <img src= "{{url_for('static',filename=fish.image_file)}}" alt="{{ fish.image_file }}" height="300" width="400">
-    </td> -->
   {% if current_user.id == fish.account_id %}
     <td>Added by: You.</td>
   {% endif %}
@@ -23,4 +20,19 @@
   </tr>
   {% endfor %}
 </table>
+{% if no_posts is defined %}
+<p>
+  The following users have no posts:
+</p>
+
+<ul>
+  {% for user in no_posts %}
+  <li>
+    {{user.id}} {{user.name}}
+  </li>
+  {% endfor %}
+</ul>
+
+{% endif %}
+
 {% endblock %}
