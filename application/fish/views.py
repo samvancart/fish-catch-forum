@@ -1,51 +1,127 @@
-from flask import redirect, render_template, request, url_for
-from flask_login import login_required,current_user
+from flask import Flask, redirect, render_template, request, url_for, abort, flash, send_file
+from flask_login import login_required, current_user
+from io import BytesIO
 
+import os
 from application import app, db
 from application.fish.models import Fish
 from application.fish.forms import FishForm
+from application.auth.models import User
 
 
 @app.route("/fish", methods=["GET"])
 def fish_index():
-    return render_template("fish/list.html", fish=Fish.query.all())
+    pictures = os.path.join(app.root_path, 'static/pictures')
+    print("PIC LIST",pictures)
+    # pictures = ['pictures/' + file for file in pictures]
+    print(pictures)
+    f = Fish.query.all()
+    # for fish in f:
+    #     fish.image_file = str(pictures)+fish.image_file
+    #     print(fish.image_file)
 
+    return render_template("fish/list.html", fish=f, users=User.query.all())
 
-@app.route("/fish/new/")
+def save_picture(form_picture,fish_id):
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = "picture" + str(fish_id) + f_ext
+    picture_path = os.path.join(app.root_path, 'static/pictures', picture_fn)
+    print("IMAGE PATH ",picture_path)
+    form_picture.save(picture_path)
+    print("PICTURE_FN ",picture_fn)
+    return picture_fn
+
+@app.route("/fish/new", methods=['GET', 'POST'])
 @login_required
-def fish_form():
-    return render_template("fish/new.html", form=FishForm())
+def fish_new():
+    form = FishForm()
+    if request.method == 'GET':
+        return render_template("fish/new.html", form=FishForm(),
+                               title='New Catch', legend='New Catch', value='Add Catch')
 
-
-@app.route("/fish/", methods=["POST"])
-@login_required
-def fish_create():
-    form = FishForm(request.form)
-
-    if not form.validate():
-        return render_template("fish/new.html", form=form)
+    if not form.validate_on_submit():
+        return render_template('fish/new.html', form=form)
 
     f = Fish(form.species.data)
     f.weight = form.weight.data
     f.account_id = current_user.id
 
-    db.session().add(f)
-    db.session().commit()
+    if form.picture.data:
+        fish_id = db.session.query(Fish).count()
+        print("FISH ID" , fish_id)
+        picture_file = save_picture(form.picture.data,fish_id)
+        flash('New catch created!', 'success')
+        f.image_file = picture_file
+        print()
+        print("FORM IMAGE",form.picture.data)
+        print()
+
+
+    db.session.add(f)
+    db.session.commit()
 
     return redirect(url_for("fish_index"))
 
 
-@app.route("/fish/delete", methods=["POST"])
+@app.route("/fish/<int:fish_id>")
+def fish_view(fish_id):
+
+    fish = Fish.query.get_or_404(fish_id)
+    user = User.query.get_or_404(fish.account_id)
+
+    if fish.image_file is None:
+         return render_template("fish/view.html", fish=fish, user=user)
+
+    print("IMG", fish)
+    picture = url_for('static', filename='pictures/'+ fish.image_file)
+
+    return render_template("fish/view.html", fish=fish, user=user, picture=picture)
+
+
+@app.route("/fish/<int:fish_id>/delete", methods=['POST'])
 @login_required
-def fish_delete():
+def fish_delete(fish_id):
 
-    # species = request.form.get("species")
-    # f = Fish.query.filter_by(species=species).first()
+    fish = Fish.query.get_or_404(fish_id)
+    user = User.query.get_or_404(fish.account_id)
+    print("user.id ", user.id, " current_user.id ", current_user.id)
 
-    form = FishForm(request.form)
-    f = Fish.query.filter_by(species=form.species.data).first()
+    if user.id != current_user.id:
+        abort(403)
 
-    db.session.delete(f)
-    db.session().commit()
+    db.session.delete(fish)
+    db.session.commit()
 
-    return redirect(url_for("fish_index"))
+    flash('Your Catch has been deleted!', 'success')
+
+    return redirect(url_for('fish_index'))
+
+
+@app.route("/fish/<int:fish_id>/update", methods=['GET', 'POST'])
+@login_required
+def fish_update(fish_id):
+
+    fish = Fish.query.get_or_404(fish_id)
+    user = User.query.get_or_404(fish.account_id)
+    print(user.username)
+
+    if user.id != current_user.id:
+        abort(403)
+    form = FishForm()
+
+    if form.validate_on_submit():
+        fish.species = form.species.data
+        fish.weight = form.weight.data
+
+        db.session.commit()
+
+        flash('Your Catch has been updated!', 'success')
+
+        return redirect(url_for('fish_view', fish_id=fish.id))
+
+    elif request.method == 'GET':
+        form.species.data = fish.species
+        form.weight.data = fish.weight
+
+    return render_template("fish/new.html", form=form,
+                           title='Update Catch', legend='Update Catch', value='Update Catch')

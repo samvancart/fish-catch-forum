@@ -13,10 +13,11 @@
   </p>
   {% else %}
   <a href="{{ url_for('auth_login') }}">Log in</a>
+  <a href="{{ url_for('auth_signup') }}">Sign up</a>
   {% endif %}
   <ul>
     <li><a href="{{ url_for('fish_index') }}">List all fish</a></li>
-    <li><a href="{{ url_for('fish_form') }}">Add a fish</a></li>
+    <li><a href="{{ url_for('fish_new') }}">Add a fish</a></li>
   </ul>
   {% block body %}
   <p>

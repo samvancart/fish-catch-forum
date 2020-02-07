@@ -3,20 +3,24 @@
 {% block body %}
 <table>
   <tr>
-    <th>Fish</th>
+    <th>Posts</th>
   </tr>
   {% for fish in fish %}
   <tr>
-    <td>{{ fish.species }}</td>
+    <td><a href="{{ url_for('fish_view', fish_id=fish.id) }}"> {{ fish.species }}</a></td>
     <td>{{ fish.weight }} kg</td>
-    <td>User id: {{ fish.account_id }}</td>
-    <form method="POST" action="{{ url_for('fish_delete')}}">
-      <input type="hidden" value="{{fish.species}}" name="species">
-      <td>
-      <input type="submit" value="Remove">      
-      </td>
-    </form>
+    <!-- <td>
+      <img src= "{{url_for('static',filename=fish.image_file)}}" alt="{{ fish.image_file }}" height="300" width="400">
+    </td> -->
+  {% if current_user.id == fish.account_id %}
+    <td>Added by: You.</td>
+  {% endif %}
+  {% for user in users %}
+      {% if user.id == fish.account_id and current_user.id != fish.account_id %}
+        <td>Added by: {{ user.username }}.</td>
+      {% endif %}
+  {% endfor %}
   </tr>
   {% endfor %}
-  </table>
+</table>
 {% endblock %}

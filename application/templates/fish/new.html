@@ -1,47 +1,76 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form method="POST" action="{{ url_for('fish_create') }}">
-  <h3>Fish information</h3>
+<form method="POST" action="" enctype="multipart/form-data">
+  <h3>{{ legend }}</h3>
   <table>
     <tr>
-<td>
-  {{ form.species.label }}
-</td>
-<td>
-  {{ form.species }}
-</td>
-<td>
-  <ul>
-    {% for error in form.species.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-</td>
+      <td>
+        {{ form.species.label }}
+      </td>
+      <td>
+        {{ form.species }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.species.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
     </tr>
     <tr>
-<td>
-  {{ form.weight.label }}
-</td>
-<td>
-  {{ form.weight }}
-</td>
-<td>
-</td>
+      <td>
+        {{ form.weight.label }}
+      </td>
+      <td>
+        {{ form.weight }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.weight.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
     </tr>
     <tr>
-<td colspan="3">
-  <input type="submit" value="Add catch"/>
-</td>
+      <td>
+        {{ form.picture.label }}
+      </td>
+      <td>
+        {{ form.picture }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.picture.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <!-- <div class="form-group">
+      {{ form.picture.label() }}
+      {{ form.picture(class="form-control-file") }}
+      {% if form.picture.errors %}
+          {% for error in form.picture.errors %}
+              <span class="text-danger">{{ error }}</span></br>
+          {% endfor %}
+      {% endif %}
+  </div> -->
+    <tr>
+      <td colspan="3">
+        <input type="submit" value="{{ value }}" />
+      </td>
     </tr>
 
 
-  <!-- <label for="weight">Fish weight</label>
+    <!-- <label for="weight">Fish weight</label>
   <input type="text" id="weight" name="weight" placeholder="2.5 kg.."> -->
 
-  <!-- <label for="method">Fishing method</label>
+    <!-- <label for="method">Fishing method</label>
   <input type="text" id="method" name="method" placeholder="fly fishing etc..."> -->
 
-  <!-- <input type="submit" value="Add catch" /> -->
+    <!-- <input type="submit" value="Add catch" /> -->
 </form>
 {% endblock %}

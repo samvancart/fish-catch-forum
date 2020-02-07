@@ -1,21 +1,16 @@
 from application import db
+from application.models import Base
 
-class User(db.Model):
+class User(Base):
 
     __tablename__ = "account"
-    # __bind_key__ = "user"
-  
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
-                              onupdate=db.func.current_timestamp())
 
-    username = db.Column(db.String(144), nullable=False)
+    username = db.Column(db.String(144), unique=True, nullable=False)
     password = db.Column(db.String(144), nullable=False)
 
     fish = db.relationship("Fish",backref='account',lazy=True)
 
-    def __init__(self, username, password):
+    def __init__(self, username,password):
         self.username = username
         self.password = password
   
