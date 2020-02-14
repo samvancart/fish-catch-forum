@@ -3,22 +3,22 @@
 {% block body %}
 <table>
   <tr>
-    <th>Fish</th>
+    <h3>Post</h3>
   </tr>
-  <tr>
-    <td>{{ fish.species }}</td>
-    <td>{{ fish.weight }} kg</td>
+  <tr style="border: solid thin; display:grid;">
+    <td>Species: {{ fish.species }}</td>
+    <td>Weight: {{ fish.weight }} kg</td>
     <td>
-      <img src="{{ picture }}" height="300" width="400" alt="Fish image">
+      <img src="{{ picture }}" height="540" width="600" alt="Fish image">
     </td>
     {% if user == current_user %}
-      <td>Added by: You. </td>
+      <td>Added by: You </td>
       <td><a href="{{ url_for('fish_update', fish_id=fish.id) }}">Update</a></td>
     <form method="POST" action="{{ url_for('fish_delete',fish_id=fish.id)}}">
       <td><input type="submit" value="Delete"></td>
     </form>
     {% else %}
-    <td>Added by: {{ user.username }}. </td>
+    <td>Added by: {{ user.username }} </td>
     {% endif %}
   </tr>
 </table>

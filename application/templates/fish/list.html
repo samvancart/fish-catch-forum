@@ -3,29 +3,30 @@
 {% block body %}
 <table>
   <tr>
-    <th>Posts</th>
+    <h3>Posts</h3>
   </tr>
   {% for fish in fish %}
-  <tr>
-    <td><a href="{{ url_for('fish_view', fish_id=fish.id) }}"> {{ fish.species }}</a></td>
-    <td>{{ fish.weight }} kg</td>
+  <tr style="border: solid thin; display:grid;">
+    <td>Species: <a href="{{ url_for('fish_view', fish_id=fish.id) }}"> {{ fish.species }}</a></td>
+    <td>Weight: {{ fish.weight }} kg</td>
     {% if not fish.image_file == None %}
     <td>
-      <img src="{{ url_for('static', filename='pictures/'+ fish.image_file) }}" height="220" width="260"
+      <img src="{{ url_for('static', filename='pictures/'+ fish.image_file) }}" height="540" width="600"
         alt="Current Fish image">
     </td>
     {% endif %}
     {% if current_user.id == fish.account_id %}
-    <td>Added by: You.</td>
+      <td>Added by: You</td>
     {% endif %}
     {% for user in users %}
-    {% if user.id == fish.account_id and current_user.id != fish.account_id %}
-    <td>Added by: {{ user.username }}.</td>
-    {% endif %}
+      {% if user.id == fish.account_id and current_user.id != fish.account_id %}
+        <td>Added by: {{ user.username }}</td>
+      {% endif %}
     {% endfor %}
   </tr>
   {% endfor %}
 </table>
+
 {% if no_posts is defined %}
 <p>
   The following users have no posts:
@@ -33,7 +34,7 @@
 
 <ul>
   {% for user in no_posts %}
-  <li>
+  <li style="padding-bottom: 10px; padding-right:50px;">
     {{user.id}} {{user.name}}
   </li>
   {% endfor %}

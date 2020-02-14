@@ -35,11 +35,11 @@ def fish_new():
     fish = None
     if request.method == 'GET':
         return render_template("fish/new.html", fish=fish, form=FishForm(),
-                               title='New Catch', legend='New Catch', value='Add Catch')
+                               title='New post', legend='New post', value='Add post')
 
     if not form.validate_on_submit():
         return render_template('fish/new.html',fish=fish, form=form,
-            title='New Catch', legend='New Catch', value='Add Catch')
+            title='New post', legend='New post', value='Add post')
 
     f = Fish(form.species.data)
     f.weight = form.weight.data
@@ -171,11 +171,11 @@ def fish_update(fish_id):
     if fish.image_file is None:
         picture = ""
         return render_template("fish/new.html", fish = fish, form=form, picture = picture,
-                        title='Update Catch', legend='Update Catch', value='Update Catch')
+                        title='Update post', legend='Update post', value='Update post')
 
     picture = url_for('static', filename='pictures/'+ fish.image_file)
     return render_template("fish/new.html", fish = fish, form=form, picture = picture,
-                           title='Update Catch', legend='Update Catch', value='Update Catch')
+                           title='Update post', legend='Update post', value='Update post')
 
 def fish_picture_delete(fish_id):
     fish = Fish.query.get_or_404(fish_id)
