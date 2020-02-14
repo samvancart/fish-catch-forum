@@ -8,8 +8,14 @@
     {% for group in groups %}
     <tr>
         <td>{{ group.name }}</td>
-        <td>{{ group }}</td>
-
+        <td>{{ group.id }}</td>
+        {% if group.id != 1 %}
+            {% if not current_user in group.accounts%}
+            <td><a href="{{ url_for('group_join', group_id=group.id) }}">Join group</a></td>
+            {% else %}
+            <td><a style="color:red;" href="{{ url_for('group_leave', group_id=group.id) }}">Leave group</a></td>
+            {% endif %}
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

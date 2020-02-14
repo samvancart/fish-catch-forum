@@ -7,8 +7,8 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password")
 
 class SignupForm(FlaskForm):
-    username = StringField("Username" ,[validators.Length(min=3)])
-    password = PasswordField("Password")
+    username = StringField("Username" ,[validators.Length(min=3,max=20)])
+    password = PasswordField("Password",[validators.Length(max=60)])
 
     class Meta:
         csrf = False

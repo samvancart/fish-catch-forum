@@ -6,8 +6,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 
 
 class FishForm(FlaskForm):
-    species = StringField("Species", [validators.Length(min=2)])
-    weight = DecimalField("Weight (kg)")
+    species = StringField("Species", [validators.Length(min=2,max=20)])
+    weight = DecimalField("Weight (kg)",[validators.NumberRange(min=0.001,max=25000)])
     picture = FileField('Fish picture',validators=[FileAllowed(['jpg','png'])])
 
     class Meta:

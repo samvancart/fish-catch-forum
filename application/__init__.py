@@ -3,7 +3,10 @@ app = Flask(__name__)
 
 
 # database connectivity and ORM
+from sqlalchemy import event, DDL
 from flask_sqlalchemy import SQLAlchemy
+
+
 
 import os
 
@@ -61,6 +64,9 @@ def login_required(_func=None, *, role="ANY"):
     return wrapper if _func is None else wrapper(_func)
 
 
+def current_group(group_id):
+    return Group.query.get(group_id)
+
 
 
 # load application content
@@ -75,13 +81,22 @@ from application.auth import views
 from application.group import views
 
 
+
 # login functionality, part 2
 from application.auth.models import User
+from application.auth.models import Group
+
+
+@event.listens_for(Group.__table__, 'after_create')
+def insert_initial_values(*args, **kwargs):
+    db.session.add(Group(name='main'))
+    db.session.commit()
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 try:  
     db.create_all()

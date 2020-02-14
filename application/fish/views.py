@@ -3,7 +3,7 @@ from flask_login import current_user
 from io import BytesIO
 
 import os
-from application import app, db, login_required
+from application import app, db, login_required, current_group
 from application.fish.models import Fish
 from application.fish.forms import FishForm
 from application.auth.models import User
@@ -11,9 +11,9 @@ from application.auth.models import User
 
 @app.route("/fish", methods=["GET"])
 def fish_index():
-    # pictures = os.path.join(app.root_path, 'static/pictures')
     fish = Fish.query.all()
     no_posts = User.find_users_with_no_posts()
+    print("CURRENT GROUP:",current_group)
 
     return render_template("fish/list.html", fish=fish, users=User.query.all(),
                 no_posts=no_posts)
