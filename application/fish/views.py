@@ -1,9 +1,9 @@
-from flask import Flask, redirect, render_template, request, url_for, abort, flash, send_file
-from flask_login import login_required, current_user
+from flask import Flask, redirect, render_template, request, url_for, abort, flash
+from flask_login import current_user
 from io import BytesIO
 
 import os
-from application import app, db
+from application import app, db, login_required
 from application.fish.models import Fish
 from application.fish.forms import FishForm
 from application.auth.models import User
@@ -29,7 +29,7 @@ def save_picture(form_picture,fish_id):
     return picture_fn
 
 @app.route("/fish/new", methods=['GET', 'POST'])
-@login_required
+@login_required(role="ADMIN")
 def fish_new():
     form = FishForm()
     fish = None
