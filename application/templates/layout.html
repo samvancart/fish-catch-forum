@@ -8,7 +8,6 @@
 </head>
 
 <body>
-  <a href="{{ url_for('group_index') }}">Groups</a>
   {% if current_user.is_authenticated %}
   <p>
   Logged in as {{ current_user.username }}. <a href="{{ url_for('auth_logout') }}">Log out</a>
@@ -17,17 +16,12 @@
   <a href="{{ url_for('auth_login') }}">Log in</a>
   <a href="{{ url_for('auth_signup') }}">Sign up</a>
   {% endif %}
-  {% if not "group" in request.path %}
   <ul>
     <li><a href="{{ url_for('fish_index') }}">List all fish</a></li>
     <li><a href="{{ url_for('fish_new') }}">Add a fish</a></li>
-  </ul>
-  {% else %}
-  <ul>
     <li><a href="{{ url_for('group_new') }}">Create new group</a></li>
-    <li><a href="{{ url_for('fish_index') }}">Main page</a></li>
+    <li><a href="{{ url_for('group_index') }}">List groups</a></li>
   </ul>
-  {% endif %}
   {% block body %}
   <p>
     Content.

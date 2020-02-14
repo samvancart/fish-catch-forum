@@ -130,5 +130,4 @@ dmypy.json
 .pyre/
 
 #db
-
-images.db
+application/fish.db

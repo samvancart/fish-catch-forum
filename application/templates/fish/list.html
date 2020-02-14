@@ -9,14 +9,20 @@
   <tr>
     <td><a href="{{ url_for('fish_view', fish_id=fish.id) }}"> {{ fish.species }}</a></td>
     <td>{{ fish.weight }} kg</td>
-  {% if current_user.id == fish.account_id %}
+    {% if not fish.image_file == None %}
+    <td>
+      <img src="{{ url_for('static', filename='pictures/'+ fish.image_file) }}" height="220" width="260"
+        alt="Current Fish image">
+    </td>
+    {% endif %}
+    {% if current_user.id == fish.account_id %}
     <td>Added by: You.</td>
-  {% endif %}
-  {% for user in users %}
-      {% if user.id == fish.account_id and current_user.id != fish.account_id %}
-        <td>Added by: {{ user.username }}.</td>
-      {% endif %}
-  {% endfor %}
+    {% endif %}
+    {% for user in users %}
+    {% if user.id == fish.account_id and current_user.id != fish.account_id %}
+    <td>Added by: {{ user.username }}.</td>
+    {% endif %}
+    {% endfor %}
   </tr>
   {% endfor %}
 </table>
