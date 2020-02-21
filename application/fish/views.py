@@ -17,7 +17,7 @@ def fish_index(group_id):
     users=User.query.all()
     id = session['group']
     fish = Fish.query.filter(Fish.group_id==id)
-    no_posts = User.find_users_with_no_posts(int(id))
+    no_posts = User.find_users_with_no_posts()
     for f in fish:
         save_download_picture(f)
 
