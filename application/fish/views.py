@@ -15,7 +15,8 @@ from application.group.models import Group
 @app.route("/<int:group_id>/fish", methods=["GET"])
 def fish_index(group_id):
     users=User.query.all()
-    id = session['group']
+    id = group_id
+    # id = session['group']
     fish = Fish.query.filter(Fish.group_id==id)
     no_posts = User.find_users_with_no_posts(id)
     for f in fish:
