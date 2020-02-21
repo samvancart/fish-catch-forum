@@ -77,8 +77,9 @@ def set_session_group(group_id):
 
 @app.context_processor
 def inject_group():
-    id = session['group']
-    active_group=Group.query.get(id)
+    # id = session['group']
+    # active_group=Group.query.get(id)
+    active_group=Group.query.get(1)
     print('@app.context_processor: ',active_group.id)
     return dict(active_group=active_group)   
 
