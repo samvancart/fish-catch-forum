@@ -82,9 +82,9 @@ def group_view(group_id):
     users= User.query.join(groups).join(Group).filter((groups.c.account_id == User.id)
     & (groups.c.group_id == group_id)).all()
     
-    # if not len(users) == 0:
-    #    no_posts = User.find_users_with_no_posts(group_id)
-    # else:
-    #      no_posts = []
+    if not len(users) == 0:
+       no_posts = User.find_users_with_no_posts(group_id)
+    else:
+         no_posts = []
 
     return redirect(url_for("fish_index",group_id=group_id))

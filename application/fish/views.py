@@ -17,12 +17,10 @@ def fish_index(group_id):
     users=User.query.all()
     id = session['group']
     fish = Fish.query.filter(Fish.group_id==id)
-    no_posts = User.find_users_with_no_posts()
+    no_posts = User.find_users_with_no_posts(id)
     for f in fish:
         save_download_picture(f)
 
-
-    # print("SESSION_GROUP: ",session['group'])
 
     return render_template("fish/list.html", fish=fish, users=users,
                 no_posts=no_posts)
