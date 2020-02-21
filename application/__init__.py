@@ -67,7 +67,7 @@ def login_required(_func=None, *, role="ANY"):
 def init_session_group():
     group = Group.query.get(1)
     session['group'] = group.id
-    print("SESSION_GROUP: ",session['group'])
+    # print("SESSION_GROUP: ",session['group'])
     inject_group()
 
 def set_session_group(group_id):
@@ -78,6 +78,7 @@ def set_session_group(group_id):
 
 @app.context_processor
 def inject_group():
+    
     if session['group'] is None:
         id = 1
     else:
@@ -85,6 +86,7 @@ def inject_group():
     
     active_group=Group.query.get(id)
     # active_group=Group.query.get(1)
+    print("SESSION GROUP: ",session['group'])
     print('@app.context_processor: ',active_group.id)
     return dict(active_group=active_group)   
 
