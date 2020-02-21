@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from application import app, db
 from application.auth.models import User
+from application.auth.models import Group
 from application.auth.forms import LoginForm
 from application.auth.forms import SignupForm
 
@@ -48,10 +49,13 @@ def auth_signup():
         return render_template("auth/signupform.html", form=form,
                                error="Username already taken")
 
-    f = User(username=form.username.data, password=form.password.data)
+    user = User(username=form.username.data, password=form.password.data)
 
-    db.session().add(f)
+    group = Group.query.get_or_404(1)
+
+    db.session().add(user)
+    group.accounts.append(user)
     db.session().commit()
 
-    login_user(f)
+    login_user(user)
     return redirect(url_for("index"))

@@ -1,12 +1,10 @@
-from flask import Flask
+from flask import Flask,g,current_app,session
 app = Flask(__name__)
 
 
 # database connectivity and ORM
 from sqlalchemy import event, DDL
 from flask_sqlalchemy import SQLAlchemy
-
-
 
 import os
 
@@ -19,6 +17,7 @@ else:
 
 # clear cache confif
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
 
 db = SQLAlchemy(app)
 
@@ -64,10 +63,29 @@ def login_required(_func=None, *, role="ANY"):
     return wrapper if _func is None else wrapper(_func)
 
 
-def current_group(group_id):
-    return Group.query.get(group_id)
+@app.before_first_request
+def init_session_group():
+    group = Group.query.get(1)
+    session['group'] = group.id
+    print("SESSION_GROUP: ",session['group'])
+    inject_group()
+
+def set_session_group(group_id):
+    session['group'] = group_id
+    inject_group()
 
 
+@app.context_processor
+def inject_group():
+    id = session['group']
+    active_group=Group.query.get(id)
+    print('@app.context_processor: ',active_group.id)
+    return dict(active_group=active_group)   
+
+
+from application.group.models import Group
+
+    
 
 # load application content
 from application import views
@@ -84,18 +102,22 @@ from application.group import views
 
 # login functionality, part 2
 from application.auth.models import User
-from application.auth.models import Group
+
+
+
+
 
 
 @event.listens_for(Group.__table__, 'after_create')
 def insert_initial_values(*args, **kwargs):
-    db.session.add(Group(name='main'))
+    db.session.add(Group(name='Main'))
     db.session.commit()
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 
 try:  

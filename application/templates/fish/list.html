@@ -3,7 +3,7 @@
 {% block body %}
 <table>
   <tr>
-    <h3>Posts</h3>
+    <h3>Posts in {{ active_group.name }}</h3>
   </tr>
   {% for fish in fish %}
   <tr style="border: solid thin; display:grid;">
@@ -29,7 +29,7 @@
 
 {% if no_posts is defined %}
 <p>
-  The following users have no posts:
+  The following users have no posts in {{ active_group.name }}:
 </p>
 
 <ul>
