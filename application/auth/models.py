@@ -1,6 +1,5 @@
 from application import db
 from application.models import Base
-from application.group.models import Group
 from application.fish.models import Fish
 
 from sqlalchemy.sql import text
@@ -88,3 +87,14 @@ class User(Base):
         return response
 
 
+class Group(Base):
+
+    name = db.Column(db.String(144), nullable=False)
+
+    fish = db.relationship("Fish",backref='group',lazy=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    def get_id(self):
+        return self.id

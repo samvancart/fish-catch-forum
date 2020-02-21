@@ -85,7 +85,7 @@ def inject_group():
     return dict(active_group=active_group)   
 
 
-from application.group.models import Group
+from application.auth.models import Group
 
     
 
