@@ -56,27 +56,11 @@ class User(Base):
 
     #     return response
 
-    # @staticmethod
-    # def find_users_with_no_posts(g_id):
-    #     stmt = text("SELECT A.id, A.username" 
-    #                  " FROM Account A, 'group' G, 'groups' gr"
-    #                  " LEFT JOIN Fish ON Fish.account_id = A.id"
-    #                  " WHERE G.id = gr.group_id AND A.id = gr.account_id"
-    #                  " AND G.id=:g_id AND (Fish.species IS null)").params(g_id=g_id)
-    #     res = db.engine.execute(stmt)
-
-    #     response = []
-    #     for row in res:
-    #         response.append({"name":row[1]})
-
-    #     return response
-
     @staticmethod
     def find_users_with_no_posts(g_id):
         stmt = text("SELECT A.id, A.username" 
                      " FROM Account A, 'group' G, 'groups' gr"
-                     " LEFT JOIN Fish ON Fish.group_id = :g_id"
-                     " AND Fish.account_id = A.id"
+                     " LEFT JOIN Fish ON Fish.account_id = A.id"
                      " WHERE G.id = gr.group_id AND A.id = gr.account_id"
                      " AND G.id=:g_id AND (Fish.species IS null)").params(g_id=g_id)
         res = db.engine.execute(stmt)
@@ -86,5 +70,21 @@ class User(Base):
             response.append({"name":row[1]})
 
         return response
+
+    # @staticmethod
+    # def find_users_with_no_posts(g_id):
+    #     stmt = text("SELECT A.id, A.username" 
+    #                  " FROM Account A, 'group' G, 'groups' gr"
+    #                  " LEFT JOIN Fish ON Fish.group_id = :g_id"
+    #                  " AND Fish.account_id = A.id"
+    #                  " WHERE G.id = gr.group_id AND A.id = gr.account_id"
+    #                  " AND G.id=:g_id AND (Fish.species IS null)").params(g_id=g_id)
+    #     res = db.engine.execute(stmt)
+
+    #     response = []
+    #     for row in res:
+    #         response.append({"name":row[1]})
+
+    #     return response
 
 
