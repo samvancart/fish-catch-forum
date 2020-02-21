@@ -1,6 +1,7 @@
 from application import db
 from application.models import Base
 from application.fish.models import Fish
+from application.group.models import Group
 
 from sqlalchemy.sql import text
 
@@ -73,7 +74,7 @@ class User(Base):
     @staticmethod
     def find_users_with_no_posts(g_id):
         stmt = text("SELECT A.id, A.username" 
-                     " FROM Account A, 'group' G, 'groups' gr"
+                     " FROM Account A, "'"group"'" G, groups gr"
                      " LEFT JOIN Fish ON Fish.group_id = :g_id"
                      " AND Fish.account_id = A.id"
                      " WHERE G.id = gr.group_id AND A.id = gr.account_id"
@@ -87,14 +88,3 @@ class User(Base):
         return response
 
 
-class Group(Base):
-
-    name = db.Column(db.String(144), nullable=False)
-
-    fish = db.relationship("Fish",backref='group',lazy=True)
-
-    def __init__(self, name):
-        self.name = name
-
-    def get_id(self):
-        return self.id

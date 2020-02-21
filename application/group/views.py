@@ -7,7 +7,8 @@ from application import app, db, set_session_group
 from application.group.forms import NewGroup
 from application.fish.models import Fish
 from application.fish.forms import FishForm
-from application.auth.models import User,groups,Group
+from application.auth.models import User,groups
+from application.group.models import Group
 
 
 

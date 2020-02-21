@@ -6,7 +6,8 @@ import os
 from application import app, db, login_required,set_session_group
 from application.fish.models import Fish
 from application.fish.forms import FishForm
-from application.auth.models import User,groups,Group
+from application.auth.models import User,groups
+from application.group.models import Group
 
 
 
