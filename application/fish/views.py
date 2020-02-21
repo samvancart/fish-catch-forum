@@ -21,6 +21,9 @@ def fish_index(group_id):
     for f in fish:
         save_download_picture(f)
 
+
+    # print("SESSION_GROUP: ",session['group'])
+
     return render_template("fish/list.html", fish=fish, users=users,
                 no_posts=no_posts)
 
