@@ -16,7 +16,7 @@ from application.group.models import Group
 def fish_index(group_id):
     users=User.query.all()
     id = group_id
-    # id = session['group']
+    set_session_group(group_id)
     fish = Fish.query.filter(Fish.group_id==id)
     no_posts = User.find_users_with_no_posts(id)
     for f in fish:
@@ -29,8 +29,9 @@ def fish_index(group_id):
 
 
 def save_download_picture(fish):
-    picture_path = os.path.join(app.root_path, 'static/pictures', fish.image_file)
-    writeTofile(fish.image_blob,picture_path)
+    if fish.image_file is not "" and fish.image_file is not None:
+        picture_path = os.path.join(app.root_path, 'static/pictures', fish.image_file)
+        writeTofile(fish.image_blob,picture_path)
 
 
 def save_picture(form_picture,fish_id):
@@ -89,6 +90,7 @@ def fish_new(group_id):
     form = FishForm()
     fish = None
     active_group = Group.query.get(group_id)
+    set_session_group(group_id)
     if request.method == 'GET':
         if not user_is_in_group(group_id):
             return redirect(url_for('group_index'))
@@ -196,7 +198,6 @@ def fish_update(fish_id):
     fish = Fish.query.get_or_404(fish_id)
     user = User.query.get_or_404(fish.account_id)
     print(user.username)
-
     print("CHECK ", request.form.get('delete-picture'))
 
     if user.id != current_user.id:

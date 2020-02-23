@@ -1,4 +1,4 @@
-from flask import Flask,g,current_app,session
+from flask import Flask,g,current_app,session,redirect,url_for
 app = Flask(__name__)
 
 
@@ -63,12 +63,12 @@ def login_required(_func=None, *, role="ANY"):
     return wrapper if _func is None else wrapper(_func)
 
 
+
+
 @app.before_first_request
 def init_session_group():
     group = Group.query.get(1)
     session['group'] = group.id
-    # print("SESSION_GROUP: ",session['group'])
-    inject_group()
 
 def set_session_group(group_id):
     session.pop('group',None)
@@ -78,22 +78,23 @@ def set_session_group(group_id):
 
 @app.context_processor
 def inject_group():
-    
-    if session['group'] is None:
+    if session.get('group') is None:
         id = 1
     else:
         id = session['group']
-    
+
     active_group=Group.query.get(id)
-    # active_group=Group.query.get(1)
-    print("SESSION GROUP: ",session['group'])
     print('@app.context_processor: ',active_group.id)
-    return dict(active_group=active_group)   
+    return dict(active_group=active_group)
+
+
+
+
 
 
 from application.group.models import Group
 
-    
+
 
 # load application content
 from application import views
@@ -128,7 +129,7 @@ def load_user(user_id):
 
 
 
-try:  
+try:
     db.create_all()
 except:
     pass
