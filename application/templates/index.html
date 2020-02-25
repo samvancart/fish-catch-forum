@@ -1,7 +1,28 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <p>
+  <h2>
    Welcome to the Fish catch forum!
-  </p>
+  </h2>
+
+{% if users_and_posts is defined %}
+<h4>
+  Users and their posts:
+</h4>
+
+<table class="table">
+  <tr>
+    <th> User </th>
+    <th> Total posts </th>
+  </tr>
+  {% for user in users_and_posts %}
+  <tr>
+    <td>{{user.name}}</td>
+    <td>{{ user.count }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endif %}
+
 {% endblock %}

@@ -19,12 +19,13 @@ def fish_index(group_id):
     set_session_group(group_id)
     fish = Fish.query.filter(Fish.group_id==id)
     no_posts = User.find_users_with_no_posts(id)
+    at_least_posts = User.find_users_with_at_least_3_posts_in_group(id)
     for f in fish:
         save_download_picture(f)
 
 
     return render_template("fish/list.html", fish=fish, users=users,
-                no_posts=no_posts)
+                no_posts=no_posts,at_least_posts=at_least_posts)
 
 
 

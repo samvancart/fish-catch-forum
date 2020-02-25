@@ -42,51 +42,6 @@ class User(Base):
     def roles(self):
         return ["ADMIN"]
 
-
-    # @staticmethod
-    # def find_users_with_no_posts():
-    #     stmt = text("SELECT Account.id, Account.username FROM Account"
-    #                  " LEFT JOIN Fish ON Fish.account_id = Account.id"
-    #                  " WHERE (Fish.species IS null)")
-    #     res = db.engine.execute(stmt)
-
-    #     response = []
-    #     for row in res:
-    #         response.append({"name":row[1]})
-
-    #     return response
-
-    # @staticmethod
-    # def find_users_with_no_posts(g_id):
-    #     stmt = text("SELECT A.id, A.username" 
-    #                  " FROM Account A, 'group' G, 'groups' gr"
-    #                  " LEFT JOIN Fish ON Fish.account_id = A.id"
-    #                  " WHERE G.id = gr.group_id AND A.id = gr.account_id"
-    #                  " AND G.id=:g_id AND (Fish.species IS null)").params(g_id=g_id)
-    #     res = db.engine.execute(stmt)
-
-    #     response = []
-    #     for row in res:
-    #         response.append({"name":row[1]})
-
-    #     return response
-
-    # @staticmethod
-    # def find_users_with_no_posts(g_id):
-    #     stmt = text("SELECT A.id, A.username" 
-    #                  " FROM Account A, "'"group"'" G, groups gr"
-    #                  " LEFT JOIN Fish ON Fish.group_id = :g_id"
-    #                  " AND Fish.account_id = A.id"
-    #                  " WHERE G.id = gr.group_id AND A.id = gr.account_id"
-    #                  " AND G.id=:g_id AND (Fish.species IS null)").params(g_id=g_id)
-    #     res = db.engine.execute(stmt)
-
-    #     response = []
-    #     for row in res:
-    #         response.append({"name":row[1]})
-
-    #     return response
-
     @staticmethod
     def find_users_with_no_posts(g_id):
         stmt = text("SELECT A.id, A.username" 
@@ -100,6 +55,44 @@ class User(Base):
         response = []
         for row in res:
             response.append({"name":row[1]})
+
+        return response
+
+
+    @staticmethod
+    def find_users_with_at_least_3_posts_in_group(g_id):
+
+        stmt = text("SELECT A.id, A.username" 
+                    " FROM Account A CROSS JOIN "'"group"'" G CROSS JOIN groups gr"
+                    " LEFT JOIN Fish ON Fish.group_id = :g_id"
+                    " AND Fish.account_id = A.id"
+                    " WHERE G.id = gr.group_id AND A.id = gr.account_id"
+                    " AND G.id=:g_id"
+                    " GROUP BY A.id"
+                    " HAVING COUNT(Fish.id) >= 3").params(g_id=g_id)
+                        
+        res = db.engine.execute(stmt)
+
+        response = []
+
+        for row in res:
+            response.append({"name":row[1]})
+
+        return response
+
+    @staticmethod
+    def users_and_posts():
+
+        stmt = text("SELECT Account.id, Account.username, COUNT(Fish.id) FROM Account"
+                    " LEFT JOIN Fish ON Fish.account_id = Account.id"
+                    " GROUP BY Account.id")
+                        
+        res = db.engine.execute(stmt)
+        
+        response = []
+
+        for row in res:
+           response.append({"id":row[0], "name":row[1], "count":row[2]})
 
         return response
 

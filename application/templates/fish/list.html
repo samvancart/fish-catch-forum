@@ -42,4 +42,20 @@
 
 {% endif %}
 
+
+{% if at_least_posts is defined %}
+<p>
+  The following users have 3 or more posts in {{ active_group.name }}:
+</p>
+
+<ul>
+  {% for user in at_least_posts %}
+  <li style="padding-bottom: 10px; padding-right:50px;">
+    {{user.id}} {{user.name}}
+  </li>
+  {% endfor %}
+</ul>
+
+{% endif %}
+
 {% endblock %}
