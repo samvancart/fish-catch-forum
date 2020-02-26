@@ -39,7 +39,7 @@
   </div>
   <div class="form-inline mt-2 mt-md-0">
     {% if current_user.is_authenticated %}
-    <p class="navbar-brand" style="padding-right:10px">Logged in as {{ current_user.username }} <a href="{{ url_for('auth_logout') }}">  Log out</a></p>
+    <p class="navbar-brand" style="padding-right:10px">Logged in as -- <a href="{{ url_for('auth_profile') }}">{{ current_user.username }}<a href="{{ url_for('auth_logout') }}"> Log out</a></p>
     {% else %}
     <p class="navbar-brand"><a style="padding: 10px" href="{{ url_for('auth_login') }}">Log in</a></p>
     <p class="navbar-brand"><a href="{{ url_for('auth_signup') }}">Sign up</a></p>

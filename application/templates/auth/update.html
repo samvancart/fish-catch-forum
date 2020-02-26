@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{{ error }}
+<form method="POST" action="{{ url_for('auth_update') }}">
+<h3>My profile ({{ current_user.username }})</h3>
+  <table>
+    <tr>
+      <td>
+	{{ form.newPassword.label }}
+      </td>
+      <td>
+	{{ form.newPassword }}
+      </td>
+      <td>
+        <ul>
+        {% for error in form.newPassword.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+        </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+	<input type="submit" value="Update profile"/>
+      </td>
+    </tr>
+</form>
+{% endblock %}
