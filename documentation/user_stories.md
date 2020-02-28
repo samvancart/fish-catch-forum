@@ -18,6 +18,7 @@
 
 ### User stories for future development
 
++ Password encryption
 + User can comment on posts
 
 ## Sql queries
