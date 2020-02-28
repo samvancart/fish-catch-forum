@@ -1,12 +1,13 @@
 ## CREATE TABLE  
 
+```
 CREATE TABLE "group" (
         id INTEGER NOT NULL,
         date_created DATETIME,
         date_modified DATETIME,
         name VARCHAR(144) NOT NULL,
         PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE account (
         id INTEGER NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE account (
         password VARCHAR(144) NOT NULL,
         PRIMARY KEY (id),
         UNIQUE (username)
-)
+);
 
 CREATE TABLE fish (
         id INTEGER NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE fish (
         PRIMARY KEY (id),
         FOREIGN KEY(account_id) REFERENCES account (id),
         FOREIGN KEY(group_id) REFERENCES "group" (id)
-)
+);
 
 CREATE TABLE groups (
         group_id INTEGER NOT NULL,
@@ -39,4 +40,5 @@ CREATE TABLE groups (
         PRIMARY KEY (group_id, account_id),
         FOREIGN KEY(group_id) REFERENCES "group" (id),
         FOREIGN KEY(account_id) REFERENCES account (id)
-)
+);
+```

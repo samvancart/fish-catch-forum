@@ -5,7 +5,7 @@ from application.group.models import Group
 
 from sqlalchemy.sql import text
 
-# userGroup association
+# User to Group association
 groups = db.Table('groups',
     db.Column('group_id', db.Integer, db.ForeignKey('group.id'),primary_key=True),
     db.Column('account_id', db.Integer, db.ForeignKey('account.id'),primary_key=True)
