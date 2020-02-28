@@ -5,6 +5,7 @@
 The fish catch forum is a forum for uploading posts of fish that have been caught by the forums users.
 Each forum user has a unique username and a password that they use to log in to their account. Once logged in, users can create and join groups and add posts to the groups they have joined.
 
+### Documentation
 
 [Setup](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/setup.md)
 
