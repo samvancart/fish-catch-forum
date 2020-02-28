@@ -14,7 +14,7 @@ Each forum user has a unique username and a password that they use to log in to 
 
 [User stories and queries](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/user_stories.md)
 
-[class diagram](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/fishCatchForumClassDiagram.png)
+[Class diagram](https://github.com/samvancart/fish-catch-forum/blob/master/documentation/fishCatchForumClassDiagram.png)
 
 ### Heroku
 

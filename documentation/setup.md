@@ -11,7 +11,7 @@ $ git@github.com:samvancart/fish-catch-forum.git
 ``` 
 The source code will now be available in the `fish-catch-forum` directory.
 
-## Runnng the app locally
+## Running the app locally
 
 ### 1. Requirements
 
@@ -27,7 +27,7 @@ type the following:
 ```
 $ python3 -m venv venv
 ```
-The python virtual environment to which the project dependencies will be installed, is now ready.
+The python virtual environment to which the project dependencies will be installed is now ready.
 
 To activate on linux type:
 
@@ -55,7 +55,8 @@ to install the Flask library
 ### 4. Installing dependencies
 
 The project dependencies can be found in the `requirements.txt` file. This file can be found in the project directory.
-Type:
+
+Type
 ```
 $ pip install -r requirements.txt
 ```
@@ -84,7 +85,7 @@ The Heroku CLI can be installed for linux with the following command:
 ```
 $ sudo snap install --classic heroku
 ```
-To download the CLI for windows go to [https://devcenter.heroku.com/articles/heroku-cli](Heroku CLI)
+To download the CLI for windows go to https://devcenter.heroku.com/articles/heroku-cli
 
 ### 1. Log in to Heroku and create a project
 
@@ -94,7 +95,7 @@ $ heroku login
 
 Go to the root directory of the project and type:
 ```
-$ heroku create <projektin nimi>
+$ heroku create <project name>
 ```
 
 ### 2. Initiate the Heroku project
@@ -105,7 +106,7 @@ $ git commit -m "Inital heroku-commit"
 $ git push heroku master
 ```
 
-### 3. Add a PostreSQL database to the project
+### 3. Add a PostgreSQL database to the project
 
 ```
 $ heroku config:set HEROKU=1
