@@ -39,9 +39,7 @@ def save_picture(form_picture,fish_id):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = "picture" + str(fish_id) + f_ext
     picture_path = os.path.join(app.root_path, 'static/pictures', picture_fn)
-    print("IMAGE PATH ",picture_path)
-    # form_picture.save(picture_path)
-    print("PICTURE_FN ",picture_fn)
+
     return picture_fn
 
 def user_is_in_group(group_id):
@@ -72,13 +70,12 @@ def writeTofile(data, filename):
 
     with open(filename, 'wb') as file:
         file.write(data)
-    print("Stored blob data into: ", filename, "\n")
 
 def delete_picture_from_folder(filename):
     osPath =  os.path.dirname(os.path.abspath(__file__))
     newPath = os.path.dirname(osPath)
     file_path = newPath+filename
-    print("file_path ",file_path)
+
     if os.path.isfile(file_path):
         os.remove(file_path)
 
@@ -120,7 +117,6 @@ def fish_new(group_id):
     f.image_file = picture_file
 
     # BLOB
-    print("FORM_PICTURE_DATA: ",form.picture.data)
     file_path = save_upload_picture(form.picture.data,fish_id)
     binaryData = convertToBinaryData(file_path)
    
@@ -153,18 +149,16 @@ def fish_view(fish_id):
     osPath =  os.path.dirname(os.path.abspath(__file__))
 
     newPath = os.path.dirname(osPath)
-    print("OS .. ", newPath)
-    print("NEW PATH ",newPath+picture)
+
 
     return render_template("fish/view.html", fish=fish, user=user, picture=picture)
 
 
 def delete_picture(image_file):
     file_path=""
-    print("DELETE_PIC_IMAGE",image_file)
+
     if  image_file is not None:
         picture = url_for('static', filename='pictures/'+ image_file)
-        print("picture", picture)
         osPath =  os.path.dirname(os.path.abspath(__file__))
         newPath = os.path.dirname(osPath)
         file_path = newPath+picture
@@ -178,7 +172,6 @@ def fish_delete(fish_id,group_id):
 
     fish = Fish.query.get_or_404(fish_id)
     user = User.query.get_or_404(fish.account_id)
-    print("user.id ", user.id, " current_user.id ", current_user.id)
 
     delete_picture(fish.image_file)
     
@@ -198,8 +191,6 @@ def fish_delete(fish_id,group_id):
 def fish_update(fish_id):
     fish = Fish.query.get_or_404(fish_id)
     user = User.query.get_or_404(fish.account_id)
-    print(user.username)
-    print("CHECK ", request.form.get('delete-picture'))
 
     if user.id != current_user.id:
         abort(403)
@@ -223,9 +214,7 @@ def fish_update(fish_id):
         delete_picture(fish.image_file)
 
         picture_file = save_picture(form.picture.data,fish_id)
-        print("PIC_FILE ",picture_file )
         fish.image_file = picture_file
-        print("FISH ID ",fish_id)
         file_path = save_upload_picture(form.picture.data,fish_id)
         binaryData = convertToBinaryData(file_path)
    
@@ -243,7 +232,6 @@ def fish_update(fish_id):
     elif request.method == 'GET':
         form.species.data = fish.species
         form.weight.data = fish.weight
-        print("FISH ID ",fish_id)
         
     if fish.image_file is None:
         picture = ""
@@ -257,10 +245,8 @@ def fish_update(fish_id):
 def fish_picture_delete(fish_id):
     fish = Fish.query.get_or_404(fish_id)
     form = FishForm()
-    print('FISH.IMAGE.FILE ',fish.image_file)
     
     delete_picture(fish.image_file)
-    
     db.session.delete(fish)
 
     fish.image_file = ""

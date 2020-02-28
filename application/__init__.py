@@ -84,7 +84,7 @@ def inject_group():
         id = session['group']
 
     active_group=Group.query.get(id)
-    print('@app.context_processor: ',active_group.id)
+    
     return dict(active_group=active_group)
 
 

@@ -53,7 +53,6 @@ def group_join(group_id):
     db.session.commit()
 
     for user in group.accounts:
-        print("Users in group ",group.name,": ",user.username)
 
         return redirect(url_for("group_index",group_id=group_id))
 
@@ -65,11 +64,6 @@ def group_leave(group_id):
 
     group.accounts.remove(user)
     db.session.commit()
-
-    print("GROUP_LEAVE ACTIVE GROUP: ",group_id)
-    
-    for user in group.accounts:
-        print("Users in group ",group.name,": ",user.username)
 
     return redirect(url_for("group_index",group_id=group_id))
 
