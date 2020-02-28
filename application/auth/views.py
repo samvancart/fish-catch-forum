@@ -8,7 +8,7 @@ from application.fish.models import Fish
 from application.auth.forms import LoginForm
 from application.auth.forms import SignupForm
 from application.auth.forms import UpdateForm
-from application.fish.views import delete_picture
+from application.fish.views import picture_delete
 
 
 
@@ -18,7 +18,6 @@ def auth_login():
         return render_template("auth/loginform.html", form=LoginForm())
 
     form = LoginForm(request.form)
-    # mahdolliset validoinnit
 
     user = User.query.filter_by(
         username=form.username.data, password=form.password.data).first()
@@ -43,7 +42,6 @@ def auth_signup():
         return render_template("auth/signupform.html", form=SignupForm())
 
     form = SignupForm(request.form)
-    # mahdolliset validoinnit
 
     if not form.validate():
         form.username.data=""
@@ -100,7 +98,7 @@ def auth_delete():
 
     for f in fish:
         if f.account_id == current_user.id:
-            delete_picture(f.image_file)
+            picture_delete(f.image_file)
             db.session.delete(f)
 
     db.session.delete(user)
